@@ -1,7 +1,7 @@
 # SmartPark-MQTT
 
 Simulation-based IoT smart parking system using MQTT. Parking slots publish
-state transitions to a Mosquitto broker; a subscriber persists everything to
+state transitions to a Mosquitto broker; a parking controller persists everything to
 SQLite; an analysis suite computes QoS performance metrics across experiments.
 
 Built for BBM 460.
@@ -41,8 +41,8 @@ mosquitto -c config/mosquitto.conf
 
 | Directory | Contents |
 |-----------|----------|
-| `simulators/` | MQTT publishers — one `SlotSimulator` per parking slot |
-| `subscriber/` | MQTT subscriber — persists telemetry to SQLite |
+| `sensors/` | MQTT publishers — one `SensorNode` per parking slot |
+| `parking_controller/` | MQTT parking controller — persists telemetry to SQLite |
 | `experiments/` | Experiment controller — orchestrates multi-slot runs across QoS levels |
 | `analysis/` | Metrics pipeline — latency, delivery rate, duplicate rate; saves plots |
 | `ui/` | Tkinter real-time dashboard — live slot grid and occupancy alerts |
@@ -61,4 +61,16 @@ python -m pytest tests/
 
 # With the standard library test runner
 python -m unittest discover tests/
+```
+
+
+``` bash
+# to start an experiment with both simulated sensors and parking controller
+python -m experiments.experiment_controller --qos 1 --n-slots 10 --duration 60
+# launch UI with 10 slotd
+python3 -m ui.main --slots 10 --broker localhost --port 1883
+
+# to have more control over the sensors and cotnroller
+python -m sensors.launch_sensors --slots 10 --interval 20 --jitter 0.3
+python -m parking_controller.parking_controller
 ```

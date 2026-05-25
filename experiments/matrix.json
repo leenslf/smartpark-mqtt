@@ -1,0 +1,122 @@
+[
+  {
+    "run_id": "E1",
+    "qos": 0,
+    "n_slots": 10,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E2",
+    "qos": 1,
+    "n_slots": 10,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E3",
+    "qos": 2,
+    "n_slots": 10,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E4",
+    "qos": 0,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E5",
+    "qos": 1,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E6",
+    "qos": 2,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E7",
+    "qos": 0,
+    "n_slots": 50,
+    "transition_rate": 5.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E8",
+    "qos": 1,
+    "n_slots": 50,
+    "transition_rate": 5.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E9",
+    "qos": 2,
+    "n_slots": 50,
+    "transition_rate": 5.0,
+    "duration_s": 60,
+    "network_condition": "clean",
+    "loss_pct": 0.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E10",
+    "qos": 0,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "loss_5pct",
+    "loss_pct": 5.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E11",
+    "qos": 1,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "loss_5pct",
+    "loss_pct": 5.0,
+    "delay_ms": 0
+  },
+  {
+    "run_id": "E12",
+    "qos": 2,
+    "n_slots": 50,
+    "transition_rate": 1.0,
+    "duration_s": 60,
+    "network_condition": "loss_5pct",
+    "loss_pct": 5.0,
+    "delay_ms": 0
+  }
+]

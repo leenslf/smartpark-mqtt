@@ -5,6 +5,7 @@ from here. Neither team member should hard-code topic strings, DB paths, or
 message formats anywhere else.
 """
 
+from dataclasses import dataclass
 import json
 
 # ---------------------------------------------------------------------------
@@ -23,6 +24,9 @@ COMMAND_TOPIC = "parking/commands/{slot_id}"
 SUMMARY_TOPIC = "parking/system/summary"
 ALERT_TOPIC = "parking/system/alert"
 TELEMETRY_WILDCARD = "parking/telemetry/+"
+COMMAND_TOPIC_PREFIX        = "parking/commands/"
+COMMAND_SUBSCRIBE_WILDCARD  = "parking/commands/#"
+RESERVATION_TIMEOUT_S       = 300
 
 # ---------------------------------------------------------------------------
 # C. Valid states and occupancy alert threshold
@@ -131,40 +135,6 @@ def parse_msg_id(msg_id: str) -> tuple[str, int]:
 
 SQLITE_DB_PATH = "data/experiment.db"
 
-MESSAGES_TABLE_SCHEMA = """
-CREATE TABLE IF NOT EXISTS messages (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    experiment_id   TEXT NOT NULL,
-    slot_id         TEXT NOT NULL,
-    state           TEXT NOT NULL,
-    qos             INTEGER NOT NULL,
-    msg_id          TEXT NOT NULL,
-    sent_ts         INTEGER NOT NULL,
-    recv_ts         INTEGER NOT NULL,
-    is_duplicate    INTEGER NOT NULL DEFAULT 0,
-    network_condition TEXT NOT NULL DEFAULT 'clean'
-);
-"""
-
-MESSAGES_INSERT = """
-INSERT INTO messages (experiment_id, slot_id, state, qos, msg_id, sent_ts, recv_ts, is_duplicate, network_condition)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-"""
-
-# ---------------------------------------------------------------------------
-# H. Publisher CSV
-# ---------------------------------------------------------------------------
-
-PUBLISHER_CSV_COLUMNS = ("experiment_id", "slot_id", "msg_id", "sent_ts", "qos")
-
-
-def publisher_log_path(experiment_id: str) -> str:
-    """Return the path for a publisher's per-experiment CSV log.
-
-    Example: ``data/publisher_log_exp_001.csv``
-    """
-    return f"data/publisher_log_{experiment_id}.csv"
-
 
 # ---------------------------------------------------------------------------
 # I. FSM config
@@ -189,3 +159,32 @@ HEADLESS_TRANSITIONS = {
     "FREE": {"OCCUPIED"},
     "OCCUPIED": {"FREE"},
 }
+
+
+@dataclass
+class Event:
+    slot_id: str
+    state: str
+    msg_id: str
+    sent_ts: int
+    recv_ts: int
+    qos: int
+    raw_topic: str
+
+
+@dataclass
+class ExperimentConfig:
+    run_id: str
+    qos: int
+    n_slots: int
+    transition_rate: float
+    duration_s: int
+    network_condition: str
+    loss_pct: float
+    delay_ms: int
+    started_at: int
+    db_path: str = SQLITE_DB_PATH
+
+
+def slot_ids_for_run(config: ExperimentConfig) -> list[str]:
+    return [f"slot_{i:02d}" for i in range(1, config.n_slots + 1)]
