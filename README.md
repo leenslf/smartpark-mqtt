@@ -65,13 +65,12 @@ python -m unittest discover tests/
 
 
 ``` bash
-which python      # should  point to .venv/bin/python
-
+# to start an experiment with both simulated sensors and parking controller
 python -m experiments.experiment_controller --qos 1 --n-slots 10 --duration 60
-
-python -m sensors.sensor_node
-
-
+# launch UI with 10 slotd
 python3 -m ui.main --slots 10 --broker localhost --port 1883
 
+# to have more control over the sensors and cotnroller
+python -m sensors.launch_sensors --slots 10 --interval 20 --jitter 0.3
+python -m parking_controller.parking_controller
 ```
