@@ -1,5 +1,7 @@
 """Unit and integration tests for sensors.sensor_node."""
 
+from __future__ import annotations  # keep annotations lazy so stubs injected by other test modules don't break type hints
+
 import json
 import os
 import random
@@ -327,6 +329,11 @@ class TestSensorNodeIntegration(unittest.TestCase):
     def test_one_sensor_node_10s_json_arrives_at_broker(self):
         if not self._broker_available():
             self.skipTest("MQTT broker not available on localhost:1883")
+        if not hasattr(mqtt, "MQTTMessage"):
+            # Another test module injected a stub paho into sys.modules before
+            # the real library was imported.  The stub lacks a real network
+            # stack, so this integration test cannot run meaningfully.
+            self.skipTest("paho stub active — real paho not available in this process")
 
         slot_id = f"testslot_{int(time.time())}"
         topic = f"parking/telemetry/{slot_id}"

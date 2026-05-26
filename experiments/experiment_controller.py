@@ -113,7 +113,7 @@ def restore_signal_handlers(previous: dict[int, signal.Handlers]) -> None:
 def clear_netem(interface: str = DEFAULT_NETEM_INTERFACE) -> None:
     try:
         subprocess.run(
-            ["tc", "qdisc", "del", "dev", interface, "root"],
+            ["sudo", "tc", "qdisc", "del", "dev", interface, "root"],
             check=False,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
@@ -125,7 +125,7 @@ def clear_netem(interface: str = DEFAULT_NETEM_INTERFACE) -> None:
 def apply_netem(loss_pct: float, delay_ms: int, interface: str = DEFAULT_NETEM_INTERFACE) -> None:
     clear_netem(interface)
 
-    command = ["tc", "qdisc", "replace", "dev", interface, "root", "netem"]
+    command = ["sudo", "tc", "qdisc", "replace", "dev", interface, "root", "netem"]
     if delay_ms > 0:
         command.extend(["delay", f"{delay_ms}ms"])
     if loss_pct > 0:

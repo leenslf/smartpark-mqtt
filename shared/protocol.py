@@ -184,6 +184,9 @@ class ExperimentConfig:
     delay_ms: int
     started_at: int
     db_path: str = SQLITE_DB_PATH
+    base_seed: int | None = None
+    jitter_factor: float = 0.2
+    mode: str = "random"
 
 
 def slot_ids_for_run(config: ExperimentConfig) -> list[str]:

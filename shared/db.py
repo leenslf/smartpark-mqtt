@@ -29,10 +29,11 @@ class DatabaseInit:
         self.conn.execute(
             """
             CREATE TABLE IF NOT EXISTS sent (
-                msg_id TEXT PRIMARY KEY,
                 run_id TEXT,
+                msg_id TEXT,
                 slot_id TEXT,
-                sent_ts INTEGER
+                sent_ts INTEGER,
+                PRIMARY KEY (run_id, msg_id)
             )
             """
         )
